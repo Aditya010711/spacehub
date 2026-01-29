@@ -1,0 +1,29 @@
+/* frontend/src/styles/globals.css */
+* { box-sizing: border-box; margin:0; padding:0; font-family: Inter, system-ui, -apple-system, Roboto, Arial, sans-serif; }
+body { background: radial-gradient(1200px 800px at 70% 10%, #101433 0%, #0b0e1a 50%, #070910 100%); color:#e6edf7; }
+.container { max-width:1100px; margin:0 auto; padding:24px; }
+.page-title { font-size:28px; margin:16px 0 24px; color:#6aa4ff; text-align:center; }
+
+/* grid & cards */
+.grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:16px; }
+.planet-card { background:linear-gradient(180deg, rgba(18,23,57,0.9), rgba(12,16,40,0.95)); border:1px solid rgba(106,164,255,0.12); border-radius:14px; overflow:hidden; padding:14px; text-align:center; transition: transform .2s, box-shadow .2s; color:var(--text); }
+.planet-card:hover { transform: translateY(-6px); box-shadow:0 12px 28px rgba(0,0,0,0.45); }
+.card-image { width:100%; height:150px; object-fit:cover; display:block; border-radius:8px; margin-bottom:12px; }
+
+/* search */
+.search-input { display:block; margin:20px auto; padding:10px 14px; width:280px; border-radius:12px; border:none; outline:none; font-size:15px; background:rgba(255,255,255,0.04); color:inherit; }
+
+/* detail */
+.detail-container { max-width:760px; margin:30px auto; padding:22px; background:linear-gradient(180deg, rgba(12,16,40,0.9), rgba(6,9,25,0.8)); border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+.detail-image { width:260px; height:260px; object-fit:contain; display:block; margin:12px auto 18px; border-radius:12px; box-shadow:0 6px 20px rgba(106,164,255,0.2); }
+.detail-container h1 { text-align:center; color:#6aa4ff; margin-bottom:12px; }
+.detail-container p { color:#cfe0ff; margin:6px 0; font-size:15px; line-height:1.5; }
+.desc { margin-top:12px; font-style:italic; color:#bcd6ff; }
+
+/* navbar */
+.navbar { display:flex; justify-content:space-between; align-items:center; padding:12px 28px; background:rgba(0,0,10,0.6); border-bottom:1px solid rgba(106,164,255,0.06); }
+.logo { color:#6aa4ff; font-weight:800; }
+.nav-links a { margin-left:18px; color:var(--text); text-decoration:none; }
+.search-box { display:flex; gap:8px; align-items:center; background:#0d1230; padding:6px 10px; border-radius:20px; }
+.search-box input { background:transparent; border:none; outline:none; color:inherit; padding:6px; width:180px; }
+.search-box button { background:none; border:none; color:#6aa4ff; cursor:pointer; font-size:16px; }
