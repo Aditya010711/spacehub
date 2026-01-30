@@ -1,10 +1,21 @@
 import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [openNovel, setOpenNovel] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) setMobileMenu(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const profileImage =
     user?.profileImage ||
@@ -14,12 +25,37 @@ export default function Navbar() {
     <nav style={styles.nav}>
       <Link to="/" style={styles.logo}>🚀 SPACEHUB</Link>
 
-      <div style={styles.links}>
+      {/* Hamburger icon (mobile only) */}
+      {isMobile && (
+        <button
+          style={styles.hamburger}
+          onClick={() => setMobileMenu(!mobileMenu)}
+        >
+          ☰
+        </button>
+      )}
+
+      <div
+        style={{
+          ...styles.links,
+          ...(isMobile
+            ? {
+                position: "absolute",
+                top: "70px",
+                left: 0,
+                width: "100%",
+                background: "#000",
+                flexDirection: "column",
+                padding: "20px 0",
+                display: mobileMenu ? "flex" : "none",
+              }
+            : {}),
+        }}
+      >
         <Link to="/planets" style={styles.link}>Planets</Link>
         <Link to="/events" style={styles.link}>🛰 Events</Link>
         <Link to="/map" style={styles.link}>🌍 Map</Link>
         <Link to="/chatbot" style={styles.link}>🤖 Space Chatbot</Link>
-
 
         <div style={styles.dropdown}>
           <button
@@ -59,10 +95,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
-/* styles unchanged */
-
-
 
 /* ================= STYLES ================= */
 
@@ -115,6 +147,13 @@ const styles = {
     border: "none",
     padding: "8px 14px",
     borderRadius: "6px",
+    color: "white",
+    cursor: "pointer",
+  },
+  hamburger: {
+    fontSize: "26px",
+    background: "transparent",
+    border: "none",
     color: "white",
     cursor: "pointer",
   },
