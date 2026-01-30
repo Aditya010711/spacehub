@@ -65,7 +65,6 @@ export default function PlanetDetail() {
 
   return (
     <>
-      {/* 🔹 INTERNAL CSS */}
       <style>{`
         body {
           background: #0b0f1a;
@@ -75,28 +74,26 @@ export default function PlanetDetail() {
           max-width: 900px;
           margin: auto;
           padding: 40px 24px;
-          font-family: "Georgia", "Times New Roman", serif;
+          font-family: Georgia, serif;
           color: #e5e7eb;
         }
 
         .title {
           text-align: center;
           font-size: 48px;
-          font-weight: bold;
           margin-bottom: 10px;
-          color: #ffffff;
         }
 
         .subtitle {
           text-align: center;
           font-size: 18px;
           color: #9ca3af;
-          margin-bottom: 40px;
+          margin-bottom: 30px;
         }
 
         .pdf-btn {
           display: block;
-          margin: 0 auto 40px;
+          margin: 0 auto 30px;
           padding: 12px 24px;
           font-size: 16px;
           background: #4f46e5;
@@ -106,12 +103,8 @@ export default function PlanetDetail() {
           cursor: pointer;
         }
 
-        .pdf-btn:hover {
-          background: #4338ca;
-        }
-
         .section {
-          margin-bottom: 50px;
+          margin-bottom: 40px;
         }
 
         .section h2 {
@@ -119,59 +112,69 @@ export default function PlanetDetail() {
           border-bottom: 1px solid #374151;
           padding-bottom: 8px;
           margin-bottom: 20px;
-          color: #ffffff;
         }
 
         .paragraph {
           font-size: 18px;
-          line-height: 1.9;
-          margin-bottom: 20px;
-          color: #d1d5db;
+          line-height: 1.8;
+          margin-bottom: 16px;
         }
 
         .info-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
           gap: 14px;
-          font-size: 18px;
-        }
-
-        .info-grid span {
-          color: #ffffff;
-          font-weight: bold;
+          font-size: 17px;
         }
 
         ul {
-          margin-left: 20px;
-          font-size: 18px;
+          padding-left: 20px;
           line-height: 1.8;
         }
 
         .back {
           display: block;
           text-align: center;
-          margin-top: 40px;
-          font-size: 18px;
+          margin-top: 30px;
           color: #818cf8;
-          text-decoration: underline;
         }
 
         .loading {
           text-align: center;
           margin-top: 100px;
-          color: #9ca3af;
-          font-size: 22px;
         }
 
         .error-box {
           text-align: center;
           margin-top: 100px;
-          color: white;
         }
 
-        .error-box a {
-          color: #60a5fa;
-          text-decoration: underline;
+        /* 📱 MOBILE FIXES */
+        @media (max-width: 768px) {
+          .page {
+            padding: 20px 14px;
+          }
+
+          .title {
+            font-size: 32px;
+          }
+
+          .subtitle {
+            font-size: 15px;
+          }
+
+          .paragraph {
+            font-size: 16px;
+          }
+
+          .section h2 {
+            font-size: 22px;
+          }
+
+          .pdf-btn {
+            width: 100%;
+            font-size: 15px;
+          }
         }
       `}</style>
 
@@ -185,7 +188,6 @@ export default function PlanetDetail() {
           📄 Download as PDF
         </button>
 
-        {/* OVERVIEW */}
         <div className="section">
           <h2>Overview</h2>
           {paragraphs.map((p, i) => (
@@ -193,35 +195,16 @@ export default function PlanetDetail() {
           ))}
         </div>
 
-        {/* INFORMATION */}
         <div className="section">
           <h2>Planet Information</h2>
           <div className="info-grid">
-            <p><span>Radius:</span> {planet.radius || "Unknown"} km</p>
-            <p><span>Distance from Sun:</span> {planet.distance || "Unknown"}</p>
-            <p><span>Order from Sun:</span> {planet.order || "Unknown"}</p>
-            <p><span>Discovered By:</span> {planet.discoveredBy || "Unknown"}</p>
+            <p><b>Radius:</b> {planet.radius || "Unknown"} km</p>
+            <p><b>Distance:</b> {planet.distance || "Unknown"}</p>
+            <p><b>Order:</b> {planet.order || "Unknown"}</p>
+            <p><b>Discovered By:</b> {planet.discoveredBy || "Unknown"}</p>
           </div>
         </div>
 
-        {/* STUDY NOTES */}
-        <div className="section">
-          <h2>Study Notes</h2>
-          <p className="paragraph">
-            {planet.name} is an important celestial body that helps scientists
-            understand planetary formation, atmospheric conditions, and space evolution.
-          </p>
-          <p className="paragraph">
-            Research missions and telescopic observations provide valuable data
-            about its structure, surface, and environmental behavior.
-          </p>
-          <p className="paragraph">
-            These notes are ideal for handwritten preparation, competitive exams,
-            and conceptual clarity in space science.
-          </p>
-        </div>
-
-        {/* FACTS */}
         <div className="section">
           <h2>Interesting Facts</h2>
           {planet.facts?.length ? (

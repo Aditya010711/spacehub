@@ -1,4 +1,3 @@
-// FULL FILE CONTENT (ALIGNMENT FIXED)
 import React, { useRef, useState, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars, useTexture } from "@react-three/drei";
@@ -65,6 +64,19 @@ const Map = () => {
   const [cityPin, setCityPin] = useState(null);
   const [search, setSearch] = useState("");
 
+  const panelRef = useRef();
+
+  /* 🔹 CLICK OUTSIDE → CLOSE PANEL */
+  useEffect(() => {
+    const closePanel = (e) => {
+      if (panelRef.current && !panelRef.current.contains(e.target)) {
+        setCountry(null);
+      }
+    };
+    document.addEventListener("mousedown", closePanel);
+    return () => document.removeEventListener("mousedown", closePanel);
+  }, []);
+
   /* 🌍 CLICK ON EARTH */
   const handleEarthClick = async (e) => {
     const p = e.point.clone().normalize();
@@ -76,7 +88,6 @@ const Map = () => {
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
       );
       const geo = await geoRes.json();
-
       if (!geo.countryCode) return;
 
       const res = await fetch(
@@ -92,7 +103,6 @@ const Map = () => {
   /* 🔍 SEARCH */
   const searchCountry = async () => {
     if (!search) return;
-
     try {
       const res = await fetch(
         `https://restcountries.com/v3.1/name/${search}?fullText=true`
@@ -155,12 +165,11 @@ const Map = () => {
         <button onClick={searchCountry}>Search</button>
       </div>
 
-      {/* 📄 INFO PANEL */}
+      {/* 📄 SIDE PANEL */}
       {country && (
-        <div style={panelStyle}>
+        <div ref={panelRef} style={panelStyle}>
           <h3>{country.name.common}</h3>
           <img src={country.flags.png} width="100%" />
-
           <p>Capital: {country.capital?.[0]}</p>
 
           <textarea
@@ -203,24 +212,25 @@ export default Map;
 /* ================= STYLES ================= */
 const panelStyle = {
   position: "absolute",
-  top: 80,
-  left: 20,
-  width: "280px",
-  padding: "14px",
-  background: "rgba(0,0,0,0.85)",
+  top: "0",
+  right: "0",
+  height: "100%",
+  width: "320px",
+  padding: "16px",
+  background: "rgba(0,0,0,0.9)",
   color: "white",
-  borderRadius: "12px",
-  zIndex: 10,
+  zIndex: 20,
+  overflowY: "auto",
 };
 
 const searchStyle = {
   position: "absolute",
-  top: 20,
+  top: "15px",
   left: "50%",
   transform: "translateX(-50%)",
   display: "flex",
   gap: "8px",
-  zIndex: 10,
+  zIndex: 30,
 };
 
 const buttonGroup = {
