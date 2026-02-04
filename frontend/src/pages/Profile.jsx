@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function Profile() {
   const { user, setUser } = useContext(AuthContext);
 
@@ -10,19 +12,17 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  /* ================= IMAGE UPLOAD ================= */
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setProfileImage(reader.result); // base64
+      setProfileImage(reader.result);
     };
     reader.readAsDataURL(file);
   };
 
-  /* ================= SAVE PROFILE ================= */
   const saveProfile = async () => {
     try {
       setLoading(true);
@@ -30,7 +30,7 @@ export default function Profile() {
 
       const token = localStorage.getItem("token");
 
-      const res = await fetch("http://localhost:5000/api/users/profile", {
+      const res = await fetch(`${API}/api/users/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -43,18 +43,15 @@ export default function Profile() {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to save profile");
+        throw new Error("Failed");
       }
 
       const updatedUser = await res.json();
-
-      // ✅ Update context + localStorage
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
 
       setMessage("✅ Profile saved successfully");
     } catch (err) {
-      console.error(err);
       setMessage("❌ Failed to save profile");
     } finally {
       setLoading(false);
@@ -66,7 +63,6 @@ export default function Profile() {
       <div style={styles.card}>
         <h2 style={styles.title}>👤 My Profile</h2>
 
-        {/* PROFILE IMAGE */}
         <img
           src={
             profileImage ||
@@ -78,7 +74,6 @@ export default function Profile() {
 
         <input type="file" accept="image/*" onChange={handleImageUpload} />
 
-        {/* NAME */}
         <input
           style={styles.input}
           value={name}
@@ -86,7 +81,6 @@ export default function Profile() {
           placeholder="Full Name"
         />
 
-        {/* EMAIL (READ ONLY) */}
         <input style={styles.input} value={email} disabled />
 
         <button onClick={saveProfile} style={styles.button} disabled={loading}>

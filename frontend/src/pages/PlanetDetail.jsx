@@ -4,6 +4,9 @@ import axios from "axios";
 import { planetDetails } from "../data/planetDetails";
 import jsPDF from "jspdf";
 
+// ✅ backend base URL (Render)
+const API_BASE_URL = "https://space-hub-37p8.onrender.com";
+
 export default function PlanetDetail() {
   const { id } = useParams();
 
@@ -13,7 +16,7 @@ export default function PlanetDetail() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/planets/${id}`)
+      .get(`${API_BASE_URL}/api/planets/${id}`)
       .then(res => {
         const dbPlanet = res.data;
         const key = dbPlanet.name?.toLowerCase();
@@ -149,7 +152,6 @@ export default function PlanetDetail() {
           margin-top: 100px;
         }
 
-        /* 📱 MOBILE FIXES */
         @media (max-width: 768px) {
           .page {
             padding: 20px 14px;

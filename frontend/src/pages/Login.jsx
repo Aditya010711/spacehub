@@ -3,6 +3,8 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -25,15 +27,8 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        form
-      );
-
-      // ✅ Save token + user in AuthContext
+      const res = await axios.post(`${API}/api/auth/login`, form);
       login(res.data.token, res.data.user);
-
-      // ✅ Redirect after login
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
@@ -77,54 +72,50 @@ export default function Login() {
   );
 }
 
-/* ✅ Built-in styling (no CSS file needed) */
+/* ✅ REQUIRED — DO NOT DELETE */
 const styles = {
   container: {
     minHeight: "100vh",
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
-    background: "radial-gradient(circle at top, #05051a, #000)"
+    justifyContent: "center",
+    background: "#0b0f1a"
   },
   card: {
-    width: "340px",
-    padding: "32px",
-    borderRadius: "18px",
-    background: "rgba(255,255,255,0.1)",
-    backdropFilter: "blur(12px)",
-    boxShadow: "0 0 25px rgba(0,153,255,0.4)",
-    textAlign: "center"
+    width: "100%",
+    maxWidth: "420px",
+    padding: "30px",
+    borderRadius: "12px",
+    background: "#111827",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.4)"
   },
   title: {
-    marginBottom: "22px",
-    color: "#00e5ff"
+    textAlign: "center",
+    marginBottom: "20px",
+    color: "#e5e7eb"
   },
   input: {
     width: "100%",
     padding: "12px",
     marginBottom: "14px",
-    borderRadius: "12px",
-    border: "none",
-    outline: "none",
-    background: "rgba(255,255,255,0.15)",
-    color: "white",
-    fontSize: "15px"
+    borderRadius: "8px",
+    border: "1px solid #374151",
+    background: "#020617",
+    color: "#e5e7eb"
   },
   button: {
     width: "100%",
     padding: "12px",
-    borderRadius: "14px",
+    borderRadius: "8px",
     border: "none",
-    background: "#00bfff",
-    color: "black",
-    fontWeight: "bold",
+    background: "#4f46e5",
+    color: "white",
     fontSize: "16px",
-    cursor: "pointer",
-    marginTop: "10px"
+    cursor: "pointer"
   },
   error: {
-    color: "#ff6b6b",
-    marginBottom: "10px",
-    fontSize: "14px"
+    color: "#f87171",
+    textAlign: "center",
+    marginBottom: "12px"
   }
 };

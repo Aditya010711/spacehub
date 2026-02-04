@@ -4,13 +4,17 @@ import axios from "axios";
 import PlanetCard from "../components/PlanetCard";
 import { useSearchParams } from "react-router-dom";
 
+// ✅ backend base URL (Render)
+const API_BASE_URL = "https://space-hub-37p8.onrender.com";
+
 export default function Planets() {
   const [planets, setPlanets] = useState([]);
   const [searchParams] = useSearchParams();
   const search = (searchParams.get("search") || "").toLowerCase();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/planets")
+    axios
+      .get(`${API_BASE_URL}/api/planets`)
       .then((res) => setPlanets(res.data))
       .catch((err) => console.error("API error:", err));
   }, []);
